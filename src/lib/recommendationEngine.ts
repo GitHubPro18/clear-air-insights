@@ -1,12 +1,7 @@
 // Phase 2 Recommendation Engine
 // Implements PRD Sections 7.1-7.4: Priority Recommendation Engine
 
-import { 
-  PRODUCT_CATALOG, 
-  ProductWithAffiliates, 
-  HomeType,
-  Priority 
-} from "@/data/productCatalog";
+import { PRODUCT_CATALOG, ProductWithAffiliates, HomeType, Priority } from "@/data/productCatalog";
 import { REASON_CODE_MAPPING } from "@/data/mockPhase2Data";
 
 export interface SensitiveGroups {
@@ -61,7 +56,7 @@ function calculateSensitivityMultiplier(sensitiveGroups: SensitiveGroups): numbe
 // ============ EXPOSURE WEIGHT (PRD Section 7.2) ============
 function calculateExposureWeight(
   timeIndoorsPerWeek: number,
-  dailyCommuteHoursOnAverage: number
+  dailyCommuteHoursOnAverage: number,
 ): { indoorWeight: number; commuteWeight: number; total: number } {
   const hoursInWeek = 168;
   const indoorWeight = timeIndoorsPerWeek / hoursInWeek;
@@ -77,7 +72,7 @@ function calculateExposureWeight(
 function calculatePriorityScore(
   product: ProductWithAffiliates,
   exposureWeight: number,
-  sensitivityMultiplier: number
+  sensitivityMultiplier: number,
 ): number {
   const cost = Math.min(...product.affiliateOptions.map((o) => o.price));
   const sensitivityBoost = product.priorityBoostForSensitive ? sensitivityMultiplier : 1;
@@ -88,7 +83,7 @@ function calculatePriorityScore(
 function generateReasonCodes(
   product: ProductWithAffiliates,
   input: RecommendationInput,
-  isMandatory: boolean
+  isMandatory: boolean,
 ): string[] {
   const codes: string[] = [];
 
@@ -160,7 +155,7 @@ function generateSummary(input: RecommendationInput, mandatoryProducts: ProductW
 function getPriorityLabel(score: number, isMandatory: boolean): Priority {
   if (isMandatory) return "High";
   //if (score >= 0.15) return "High";
-  // BOLT LOGIC 
+  // BOLT LOGIC
   if (score >= 0.5) return "High";
   //if (score >= 0.08) return "Medium";
   // BOLT LOGIC
@@ -178,12 +173,11 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
 
   // Step 1: Identify mandatory products (PRD 7.1)
   const mandatoryProducts = PRODUCT_CATALOG.filter(
-    (p) => p.isMandatoryAtAQI !== undefined && aqi >= p.isMandatoryAtAQI
+    (p) => p.isMandatoryAtAQI !== undefined && aqi >= p.isMandatoryAtAQI,
   );
 
   // BOLT LOGIC
   const mandatoryProductIds = new Set(mandatoryProducts.map((p) => p.id));
-
 
   // Step 2: Filter eligible products
   let eligibleProducts = PRODUCT_CATALOG.filter((p) => {
@@ -199,21 +193,17 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
   });
 
   // BOLT LOGIC
-    // ===== STEP 0: HARD MANDATORY RULE (BOLT) =====
+  // ===== STEP 0: HARD MANDATORY RULE (BOLT) =====
   let remainingBudget = budget;
   const selectedProducts: RecommendedProduct[] = [];
   const selectedIds = new Set<string>();
-  
+
   if (aqi >= 300) {
-    const mandatoryMask = PRODUCT_CATALOG.find(
-      (p) => p.id === "n95_mask" && p.minAQI <= aqi
-    );
-  
+    const mandatoryMask = PRODUCT_CATALOG.find((p) => p.id === "n95_mask" && p.minAQI <= aqi);
+
     if (mandatoryMask) {
-      const cheapest = mandatoryMask.affiliateOptions.reduce((min, opt) =>
-        opt.price < min.price ? opt : min
-      );
-  
+      const cheapest = mandatoryMask.affiliateOptions.reduce((min, opt) => (opt.price < min.price ? opt : min));
+
       if (cheapest.price <= remainingBudget) {
         selectedProducts.push({
           productType: mandatoryMask.name,
@@ -224,13 +214,12 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
           options: mandatoryMask.affiliateOptions,
           selectedCost: cheapest.price,
         });
-  
+
         remainingBudget -= cheapest.price;
         selectedIds.add(mandatoryMask.id);
       }
     }
   }
-
 
   // Step 3: Score and sort products
   const scoredProducts = eligibleProducts.map((product) => {
@@ -238,10 +227,11 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     //const effectiveExposure = product.category === "personal" ? exposure.commuteWeight + 0.5 : exposure.indoorWeight;
     // BOLT LOGIC
     const effectiveExposure = product.category === "personal" ? exposure.commuteWeight : exposure.indoorWeight;
-   // const score = calculatePriorityScore(product, effectiveExposure + 0.3, sensitivityMultiplier);
+    // const score = calculatePriorityScore(product, effectiveExposure + 0.3, sensitivityMultiplier);
     // BOLT LOGIC
     const score = calculatePriorityScore(product, effectiveExposure, sensitivityMultiplier);
-    return {// BOLT LOGIC (REMOVE THIS) getPriorityLabel
+    return {
+      // BOLT LOGIC (REMOVE THIS) getPriorityLabel
       product,
       score,
       isMandatory,
@@ -260,10 +250,9 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
   */
   scoredProducts.sort((a, b) => b.score - a.score);
 
-
   // Step 4: Greedy selection within budget
   // BOLT LOGIC
- //let remainingBudget = budget;
+  //let remainingBudget = budget;
   //const selectedProducts: RecommendedProduct[] = [];
   //const selectedIds = new Set<string>();
 
@@ -272,8 +261,8 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     if (selectedIds.has(product.id)) continue;
 
     // Skip supplementary plants if we already have 2
-    const plantCount = selectedProducts.filter((p) => 
-      PRODUCT_CATALOG.find((c) => c.name === p.productType)?.category === "supplementary"
+    const plantCount = selectedProducts.filter(
+      (p) => PRODUCT_CATALOG.find((c) => c.name === p.productType)?.category === "supplementary",
     ).length;
     if (product.category === "supplementary" && plantCount >= 2) continue;
 
@@ -281,10 +270,17 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     if (minPrice > remainingBudget) {
       continue;
     }
+    /*
+      // If mandatory and can't afford, still include with note
+      if (isMandatory) {
+        // Add anyway for visibility but mark budget issue
+      } else {
+        continue;
+      }
+    }
+    */
     // Find cheapest option
-    const cheapestOption = product.affiliateOptions.reduce((min, opt) => 
-      opt.price < min.price ? opt : min
-    );
+    const cheapestOption = product.affiliateOptions.reduce((min, opt) => (opt.price < min.price ? opt : min));
 
     //const reasonCodes = generateReasonCodes(product, input, isMandatory);
     // BOLT LOGIC
@@ -325,6 +321,6 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
 // Update reason code mapping with new codes
 export const EXTENDED_REASON_CODE_MAPPING: Record<string, string> = {
   ...REASON_CODE_MAPPING,
-  "AQI_ABOVE_300": "Air quality is hazardous — immediate protection required",
-  "AQI_ABOVE_100": "Air quality is moderate with some pollutants present",
+  AQI_ABOVE_300: "Air quality is hazardous — immediate protection required",
+  AQI_ABOVE_100: "Air quality is moderate with some pollutants present",
 };
