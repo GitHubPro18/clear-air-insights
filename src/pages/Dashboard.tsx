@@ -10,12 +10,15 @@ import { getMockAQIData, fetchLiveAQIData, AQIData, AQI_CATEGORIES } from "@/dat
 import { RefreshCw, Wifi, WifiOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useAQI } from "@/contexts/AQIContext";
 
 const Dashboard = () => {
   const [selectedCity, setSelectedCity] = useState("Delhi");
   const [aqiData, setAqiData] = useState<AQIData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLiveData, setIsLiveData] = useState(false);
+  
+  const { updateFromAQIData } = useAQI();
 
   const fetchAQIData = async (city: string) => {
     setIsLoading(true);
@@ -23,12 +26,14 @@ const Dashboard = () => {
       const data = await fetchLiveAQIData(city);
       setAqiData(data);
       setIsLiveData(true);
+      updateFromAQIData(data, true); // Update shared context
       toast.success(`Live AQI data loaded for ${city}`);
     } catch (error) {
       console.error('Failed to fetch live data, falling back to mock:', error);
       const data = getMockAQIData(city);
       setAqiData(data);
       setIsLiveData(false);
+      updateFromAQIData(data, false); // Update shared context with mock data
       toast.info('Using simulated data - live API unavailable');
     } finally {
       setIsLoading(false);

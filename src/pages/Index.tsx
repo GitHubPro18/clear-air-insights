@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import { AQIHeader } from "@/components/AQIHeader";
+import { AQIContextBanner } from "@/components/AQIContextBanner";
 import { UserInputForm } from "@/components/UserInputForm";
 import { RecommendationResults } from "@/components/RecommendationResults";
 import { generateRecommendations, RecommendationInput, RecommendationOutput } from "@/lib/recommendationEngine";
-import { mockAQIData } from "@/data/mockPhase2Data";
+import { useAQI } from "@/contexts/AQIContext";
 import type { HomeType } from "@/data/productCatalog";
 
 interface SensitiveGroups {
@@ -18,6 +19,8 @@ const Index = () => {
   const [results, setResults] = useState<RecommendationOutput | null>(null);
   const [currentBudget, setCurrentBudget] = useState(15000);
   const [isLoading, setIsLoading] = useState(false);
+  
+  const { sharedAQIData } = useAQI();
 
   const handleFormSubmit = (data: {
     budget: number;
@@ -26,6 +29,10 @@ const Index = () => {
     dailyCommuteHoursOnAverage: number;
     sensitiveGroups: SensitiveGroups;
   }) => {
+    // Use shared AQI data from context, fallback to defaults if not available
+    const aqi = sharedAQIData?.aqi ?? 150;
+    const pm25 = sharedAQIData?.pollutants.pm25 ?? 80;
+
     setIsLoading(true);
     setCurrentBudget(data.budget);
 
@@ -33,8 +40,8 @@ const Index = () => {
     setTimeout(() => {
       const input: RecommendationInput = {
         ...data,
-        aqi: mockAQIData.aqi,
-        pm25: mockAQIData.pm25,
+        aqi,
+        pm25,
       };
 
       const recommendations = generateRecommendations(input);
@@ -60,6 +67,9 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container py-8 md:py-12">
+        {/* AQI Context Banner - Shows data from Dashboard */}
+        <AQIContextBanner />
+        
         <div className="grid gap-8 lg:grid-cols-[400px,1fr] lg:items-start">
           {/* Input Form - Sticky on desktop */}
           <div className="lg:sticky lg:top-8">
