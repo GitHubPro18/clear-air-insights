@@ -6,23 +6,33 @@ import PollutantBreakdown from "@/components/PollutantBreakdown";
 import HealthImpactSection from "@/components/HealthImpactSection";
 import CitySelector from "@/components/CitySelector";
 import AQITrendChart from "@/components/AQITrendChart";
-import { getMockAQIData, AQIData, AQI_CATEGORIES, getAQICategory } from "@/data/aqiData";
-import { RefreshCw } from "lucide-react";
+import { getMockAQIData, fetchLiveAQIData, AQIData, AQI_CATEGORIES } from "@/data/aqiData";
+import { RefreshCw, Wifi, WifiOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [selectedCity, setSelectedCity] = useState("Delhi");
   const [aqiData, setAqiData] = useState<AQIData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLiveData, setIsLiveData] = useState(false);
 
-  const fetchAQIData = (city: string) => {
+  const fetchAQIData = async (city: string) => {
     setIsLoading(true);
-    // Simulate API call delay
-    setTimeout(() => {
+    try {
+      const data = await fetchLiveAQIData(city);
+      setAqiData(data);
+      setIsLiveData(true);
+      toast.success(`Live AQI data loaded for ${city}`);
+    } catch (error) {
+      console.error('Failed to fetch live data, falling back to mock:', error);
       const data = getMockAQIData(city);
       setAqiData(data);
+      setIsLiveData(false);
+      toast.info('Using simulated data - live API unavailable');
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   useEffect(() => {
@@ -54,8 +64,17 @@ const Dashboard = () => {
             <h1 className="text-3xl md:text-4xl font-bold font-heading text-foreground mb-2">
               Air Quality Dashboard
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground flex items-center gap-2">
               Real-time air quality monitoring for India
+              {isLiveData ? (
+                <span className="inline-flex items-center gap-1 text-xs text-emerald-500 font-medium">
+                  <Wifi className="w-3 h-3" /> Live
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-xs text-muted-foreground font-medium">
+                  <WifiOff className="w-3 h-3" /> Simulated
+                </span>
+              )}
             </p>
           </div>
 
@@ -103,7 +122,7 @@ const Dashboard = () => {
 
               {/* AQI Trend Chart */}
               <div className="animate-fade-up stagger-4">
-                <AQITrendChart city={selectedCity} />
+                <AQITrendChart city={selectedCity} history24h={aqiData.history24h} />
               </div>
 
               {/* Two Column Layout */}

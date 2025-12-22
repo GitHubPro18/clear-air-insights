@@ -87,6 +87,7 @@ export interface AQIData {
     o3: number;
   };
   lastUpdated: string;
+  history24h?: AQIHistoryPoint[];
 }
 
 // Mock AQI data for development
@@ -118,6 +119,36 @@ export const getMockAQIData = (cityName: string): AQIData => {
     pollutants: baseData.pollutants!,
     lastUpdated: new Date().toISOString(),
   };
+};
+
+// Fetch live AQI data from OpenWeatherMap API via edge function
+export const fetchLiveAQIData = async (cityName: string): Promise<AQIData> => {
+  const city = INDIAN_CITIES.find(c => c.name === cityName);
+  if (!city) {
+    throw new Error(`City ${cityName} not found`);
+  }
+
+  const response = await fetch(
+    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-aqi`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lat: city.lat,
+        lon: city.lon,
+        city: cityName,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Failed to fetch AQI data');
+  }
+
+  return response.json();
 };
 
 // Historical AQI data point
