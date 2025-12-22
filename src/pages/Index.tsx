@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Navigation from "@/components/Navigation";
 import { AQIHeader } from "@/components/AQIHeader";
 import { UserInputForm } from "@/components/UserInputForm";
 import { RecommendationResults } from "@/components/RecommendationResults";
@@ -50,8 +51,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
+      
       {/* Hero Header with AQI Display */}
-      <AQIHeader />
+      <div className="pt-16">
+        <AQIHeader />
+      </div>
 
       {/* Main Content */}
       <main className="container py-8 md:py-12">
