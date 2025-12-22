@@ -55,17 +55,8 @@ export const REASON_CODE_MAPPING: Record<string, string> = {
   "PORTABLE_PROTECTION": "Provides protection while traveling or commuting",
 };
 
-// Mock current AQI data
-export const mockAQIData = {
-  city: "Delhi",
-  aqi: 245,
-  pm25: 156,
-  pm10: 289,
-  no2: 78,
-  so2: 24,
-  category: "Very Unhealthy" as const,
-  lastUpdated: new Date().toISOString(),
-};
+// Note: AQI data is now sourced from the shared AQI Context (populated by the Dashboard).
+// The mockAQIData export is removed - use useAQI() hook from @/contexts/AQIContext instead.
 
 // Default inputs for the form
 export const DEFAULT_INPUT: Phase2Input = {
