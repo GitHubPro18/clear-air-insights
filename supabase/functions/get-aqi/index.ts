@@ -19,24 +19,28 @@ serve(async (req) => {
   }
 
   try {
-    const apiKey = Deno.env.get('OPENWEATHERMAP_API_KEY');
-    
+    const apiKeyRaw = Deno.env.get('OPENWEATHERMAP_API_KEY');
+    const apiKey = apiKeyRaw?.trim();
+
     if (!apiKey) {
       console.error('OPENWEATHERMAP_API_KEY not configured');
       throw new Error('API key not configured');
     }
 
+    console.log(`OPENWEATHERMAP_API_KEY loaded (length: ${apiKey.length})`);
+
     const { lat, lon, city }: AQIRequest = await req.json();
-    
+
     console.log(`Fetching AQI for ${city} at lat: ${lat}, lon: ${lon}`);
 
     // Fetch current air pollution data
     const currentUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     const currentResponse = await fetch(currentUrl);
-    
+
     if (!currentResponse.ok) {
-      console.error(`OpenWeatherMap API error: ${currentResponse.status}`);
-      throw new Error(`API request failed: ${currentResponse.status}`);
+      const errText = await currentResponse.text().catch(() => '');
+      console.error(`OpenWeatherMap API error: ${currentResponse.status} ${errText}`);
+      throw new Error(`API request failed: ${currentResponse.status}${errText ? ` - ${errText}` : ''}`);
     }
 
     const currentData = await currentResponse.json();
