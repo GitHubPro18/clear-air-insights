@@ -159,8 +159,12 @@ function generateSummary(input: RecommendationInput, mandatoryProducts: ProductW
 // ============ PRIORITY LABEL ============
 function getPriorityLabel(score: number, isMandatory: boolean): Priority {
   if (isMandatory) return "High";
-  if (score >= 0.15) return "High";
-  if (score >= 0.08) return "Medium";
+  //if (score >= 0.15) return "High";
+  // BOLT LOGIC 
+  if (score >= 0.5) return "High";
+  //if (score >= 0.08) return "Medium";
+  // BOLT LOGIC
+  if (score >= 0.2) return "Medium";
   return "Low";
 }
 
@@ -177,8 +181,14 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     (p) => p.isMandatoryAtAQI !== undefined && aqi >= p.isMandatoryAtAQI
   );
 
+  // BOLT LOGIC
+  const mandatoryProductIds = new Set(mandatoryProducts.map((p) => p.id));
+
+
   // Step 2: Filter eligible products
   let eligibleProducts = PRODUCT_CATALOG.filter((p) => {
+    // BOLT LOGIC
+    if (mandatoryProductIds.has(p.id)) return false;
     // AQI threshold met
     if (aqi < p.minAQI) return false;
     // Applicable to home type
@@ -188,12 +198,50 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     return true;
   });
 
+  // BOLT LOGIC
+    // ===== STEP 0: HARD MANDATORY RULE (BOLT) =====
+  let remainingBudget = budget;
+  const selectedProducts: RecommendedProduct[] = [];
+  const selectedIds = new Set<string>();
+  
+  if (aqi >= 300) {
+    const mandatoryMask = PRODUCT_CATALOG.find(
+      (p) => p.id === "n95_mask" && p.minAQI <= aqi
+    );
+  
+    if (mandatoryMask) {
+      const cheapest = mandatoryMask.affiliateOptions.reduce((min, opt) =>
+        opt.price < min.price ? opt : min
+      );
+  
+      if (cheapest.price <= remainingBudget) {
+        selectedProducts.push({
+          productType: mandatoryMask.name,
+          productName: cheapest.productName,
+          priority: "High",
+          reason: "Hazardous AQI — mandatory personal protection required",
+          reasonCodes: ["AQI_ABOVE_300"],
+          options: mandatoryMask.affiliateOptions,
+          selectedCost: cheapest.price,
+        });
+  
+        remainingBudget -= cheapest.price;
+        selectedIds.add(mandatoryMask.id);
+      }
+    }
+  }
+
+
   // Step 3: Score and sort products
   const scoredProducts = eligibleProducts.map((product) => {
     const isMandatory = mandatoryProducts.some((m) => m.id === product.id);
-    const effectiveExposure = product.category === "personal" ? exposure.commuteWeight + 0.5 : exposure.indoorWeight;
-    const score = calculatePriorityScore(product, effectiveExposure + 0.3, sensitivityMultiplier);
-    return {
+    //const effectiveExposure = product.category === "personal" ? exposure.commuteWeight + 0.5 : exposure.indoorWeight;
+    // BOLT LOGIC
+    const effectiveExposure = product.category === "personal" ? exposure.commuteWeight : exposure.indoorWeight;
+   // const score = calculatePriorityScore(product, effectiveExposure + 0.3, sensitivityMultiplier);
+    // BOLT LOGIC
+    const score = calculatePriorityScore(product, effectiveExposure, sensitivityMultiplier);
+    return {// BOLT LOGIC (REMOVE THIS) getPriorityLabel
       product,
       score,
       isMandatory,
@@ -202,16 +250,22 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
   });
 
   // Sort: mandatory first, then by score descending
+  // BOLT LOGIC
+  /*
   scoredProducts.sort((a, b) => {
     if (a.isMandatory && !b.isMandatory) return -1;
     if (!a.isMandatory && b.isMandatory) return 1;
     return b.score - a.score;
   });
+  */
+  scoredProducts.sort((a, b) => b.score - a.score);
+
 
   // Step 4: Greedy selection within budget
-  let remainingBudget = budget;
-  const selectedProducts: RecommendedProduct[] = [];
-  const selectedIds = new Set<string>();
+  // BOLT LOGIC
+ //let remainingBudget = budget;
+  //const selectedProducts: RecommendedProduct[] = [];
+  //const selectedIds = new Set<string>();
 
   for (const { product, score, isMandatory, minPrice } of scoredProducts) {
     // Skip if already selected a product from same category with similar function
@@ -223,8 +277,10 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     ).length;
     if (product.category === "supplementary" && plantCount >= 2) continue;
 
-    // Check budget
+    // Check budget : BOLT LOGIC
     if (minPrice > remainingBudget) {
+      continue;
+      /*
       // If mandatory and can't afford, still include with note
       if (isMandatory) {
         // Add anyway for visibility but mark budget issue
@@ -232,13 +288,15 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
         continue;
       }
     }
-
+    */
     // Find cheapest option
     const cheapestOption = product.affiliateOptions.reduce((min, opt) => 
       opt.price < min.price ? opt : min
     );
 
-    const reasonCodes = generateReasonCodes(product, input, isMandatory);
+    //const reasonCodes = generateReasonCodes(product, input, isMandatory);
+    // BOLT LOGIC
+    const reasonCodes = generateReasonCodes(product, input, false);
     const reason = reasonCodes
       .slice(0, 3)
       .map((code) => REASON_CODE_MAPPING[code] || code)
@@ -247,7 +305,8 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     selectedProducts.push({
       productType: product.name,
       productName: cheapestOption.productName,
-      priority: getPriorityLabel(score, isMandatory),
+      //priority: getPriorityLabel(score, isMandatory),
+      priority: getPriorityLabel(score, false),
       reason,
       reasonCodes,
       options: product.affiliateOptions,
