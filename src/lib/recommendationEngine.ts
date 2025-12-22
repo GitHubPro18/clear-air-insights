@@ -280,15 +280,7 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     // Check budget : BOLT LOGIC
     if (minPrice > remainingBudget) {
       continue;
-      /*
-      // If mandatory and can't afford, still include with note
-      if (isMandatory) {
-        // Add anyway for visibility but mark budget issue
-      } else {
-        continue;
-      }
     }
-    */
     // Find cheapest option
     const cheapestOption = product.affiliateOptions.reduce((min, opt) => 
       opt.price < min.price ? opt : min
