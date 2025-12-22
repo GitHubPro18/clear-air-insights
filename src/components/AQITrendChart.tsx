@@ -7,15 +7,22 @@ import { getMockAQIHistory, AQIHistoryPoint, getAQICategory } from "@/data/aqiDa
 
 interface AQITrendChartProps {
   city: string;
+  history24h?: AQIHistoryPoint[];
 }
 
-const AQITrendChart = ({ city }: AQITrendChartProps) => {
+const AQITrendChart = ({ city, history24h }: AQITrendChartProps) => {
   const [period, setPeriod] = useState<'24h' | '7d'>('24h');
   const [data, setData] = useState<AQIHistoryPoint[]>([]);
 
   useEffect(() => {
-    setData(getMockAQIHistory(city, period));
-  }, [city, period]);
+    if (period === '24h' && history24h && history24h.length > 0) {
+      // Use live data if available
+      setData(history24h);
+    } else {
+      // Fall back to mock data
+      setData(getMockAQIHistory(city, period));
+    }
+  }, [city, period, history24h]);
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
