@@ -5,6 +5,7 @@ import AQISummaryCard from "@/components/AQISummaryCard";
 import PollutantBreakdown from "@/components/PollutantBreakdown";
 import HealthImpactSection from "@/components/HealthImpactSection";
 import CitySelector from "@/components/CitySelector";
+import AQITrendChart from "@/components/AQITrendChart";
 import { getMockAQIData, AQIData, AQI_CATEGORIES, getAQICategory } from "@/data/aqiData";
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -100,9 +101,14 @@ const Dashboard = () => {
                 <AQISummaryCard data={aqiData} />
               </div>
 
+              {/* AQI Trend Chart */}
+              <div className="animate-fade-up stagger-4">
+                <AQITrendChart city={selectedCity} />
+              </div>
+
               {/* Two Column Layout */}
               <div className="grid md:grid-cols-2 gap-8">
-                <div className="animate-fade-up stagger-4">
+                <div className="animate-fade-up" style={{ animationDelay: '0.4s' }}>
                   <PollutantBreakdown data={aqiData} />
                 </div>
                 <div className="animate-fade-up" style={{ animationDelay: '0.5s' }}>

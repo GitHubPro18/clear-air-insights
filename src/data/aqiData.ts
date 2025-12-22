@@ -119,3 +119,46 @@ export const getMockAQIData = (cityName: string): AQIData => {
     lastUpdated: new Date().toISOString(),
   };
 };
+
+// Historical AQI data point
+export interface AQIHistoryPoint {
+  time: string;
+  aqi: number;
+  label: string;
+}
+
+// Generate mock historical AQI data
+export const getMockAQIHistory = (cityName: string, period: '24h' | '7d'): AQIHistoryPoint[] => {
+  const baseAQI = getMockAQIData(cityName).aqi;
+  const points: AQIHistoryPoint[] = [];
+  
+  if (period === '24h') {
+    // Generate hourly data for 24 hours
+    for (let i = 23; i >= 0; i--) {
+      const date = new Date();
+      date.setHours(date.getHours() - i);
+      const variation = Math.sin(i / 4) * 30 + (Math.random() - 0.5) * 20;
+      const aqi = Math.max(10, Math.min(500, Math.round(baseAQI + variation)));
+      points.push({
+        time: date.toISOString(),
+        aqi,
+        label: date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }),
+      });
+    }
+  } else {
+    // Generate daily data for 7 days
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const variation = (Math.random() - 0.5) * 60;
+      const aqi = Math.max(10, Math.min(500, Math.round(baseAQI + variation)));
+      points.push({
+        time: date.toISOString(),
+        aqi,
+        label: date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric' }),
+      });
+    }
+  }
+  
+  return points;
+};
