@@ -90,33 +90,71 @@ export interface AQIData {
   history24h?: AQIHistoryPoint[];
 }
 
+// Random value generator helper (generates once at initialization)
+const randomInRange = (min: number, max: number): number => 
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+// City-specific ranges for AQI, PM2.5, and PM10
+interface CityRanges {
+  aqi: { min: number; max: number };
+  pm25: { min: number; max: number };
+  pm10: { min: number; max: number };
+}
+
+const cityRanges: Record<string, CityRanges> = {
+  Delhi: { aqi: { min: 400, max: 450 }, pm25: { min: 200, max: 250 }, pm10: { min: 220, max: 270 } },
+  Mumbai: { aqi: { min: 120, max: 170 }, pm25: { min: 60, max: 110 }, pm10: { min: 80, max: 130 } },
+  Bangalore: { aqi: { min: 80, max: 130 }, pm25: { min: 40, max: 90 }, pm10: { min: 50, max: 100 } },
+  Chennai: { aqi: { min: 90, max: 140 }, pm25: { min: 45, max: 95 }, pm10: { min: 55, max: 105 } },
+  Kolkata: { aqi: { min: 290, max: 340 }, pm25: { min: 140, max: 190 }, pm10: { min: 170, max: 220 } },
+  Hyderabad: { aqi: { min: 170, max: 220 }, pm25: { min: 80, max: 130 }, pm10: { min: 90, max: 140 } },
+  Pune: { aqi: { min: 200, max: 250 }, pm25: { min: 150, max: 200 }, pm10: { min: 170, max: 220 } },
+  Ahmedabad: { aqi: { min: 130, max: 180 }, pm25: { min: 50, max: 100 }, pm10: { min: 60, max: 110 } },
+  Jaipur: { aqi: { min: 130, max: 180 }, pm25: { min: 55, max: 105 }, pm10: { min: 70, max: 120 } },
+  Lucknow: { aqi: { min: 250, max: 300 }, pm25: { min: 150, max: 200 }, pm10: { min: 170, max: 220 } },
+  Chandigarh: { aqi: { min: 180, max: 230 }, pm25: { min: 70, max: 120 }, pm10: { min: 90, max: 140 } },
+  Gurgaon: { aqi: { min: 350, max: 400 }, pm25: { min: 160, max: 210 }, pm10: { min: 180, max: 230 } },
+  Noida: { aqi: { min: 350, max: 400 }, pm25: { min: 160, max: 210 }, pm10: { min: 180, max: 230 } },
+};
+
+// Fixed pollutant values for NO2, SO2, CO, O3 (same for all cities)
+const fixedPollutants = {
+  no2: 55,
+  so2: 20,
+  co: 1.4,
+  o3: 45,
+};
+
+// Generate mock data once at initialization time
+const generatedCityMockData: Record<string, { aqi: number; pollutants: AQIData['pollutants'] }> = {};
+
+Object.entries(cityRanges).forEach(([city, ranges]) => {
+  generatedCityMockData[city] = {
+    aqi: randomInRange(ranges.aqi.min, ranges.aqi.max),
+    pollutants: {
+      pm25: randomInRange(ranges.pm25.min, ranges.pm25.max),
+      pm10: randomInRange(ranges.pm10.min, ranges.pm10.max),
+      ...fixedPollutants,
+    },
+  };
+});
+
+// Default fallback for unknown cities
+const defaultMockData = {
+  aqi: 120,
+  pollutants: { pm25: 55, pm10: 95, ...fixedPollutants },
+};
+
 // Mock AQI data for development
 export const getMockAQIData = (cityName: string): AQIData => {
-  // Generate realistic mock data based on city
-  const cityMockData: Record<string, Partial<AQIData>> = {
-    "Delhi": { aqi: 285, pollutants: { pm25: 142, pm10: 245, no2: 68, so2: 22, co: 1.8, o3: 45 } },
-    "Mumbai": { aqi: 128, pollutants: { pm25: 62, pm10: 98, no2: 45, so2: 15, co: 1.2, o3: 38 } },
-    "Bangalore": { aqi: 89, pollutants: { pm25: 38, pm10: 72, no2: 35, so2: 12, co: 0.9, o3: 42 } },
-    "Chennai": { aqi: 105, pollutants: { pm25: 48, pm10: 85, no2: 42, so2: 18, co: 1.1, o3: 52 } },
-    "Kolkata": { aqi: 178, pollutants: { pm25: 88, pm10: 142, no2: 55, so2: 25, co: 1.5, o3: 48 } },
-    "Hyderabad": { aqi: 95, pollutants: { pm25: 42, pm10: 78, no2: 38, so2: 14, co: 1.0, o3: 40 } },
-    "Pune": { aqi: 112, pollutants: { pm25: 52, pm10: 92, no2: 48, so2: 16, co: 1.1, o3: 44 } },
-    "Ahmedabad": { aqi: 145, pollutants: { pm25: 72, pm10: 118, no2: 52, so2: 20, co: 1.3, o3: 46 } },
-    "Jaipur": { aqi: 168, pollutants: { pm25: 82, pm10: 135, no2: 58, so2: 24, co: 1.4, o3: 50 } },
-    "Lucknow": { aqi: 198, pollutants: { pm25: 98, pm10: 165, no2: 62, so2: 28, co: 1.6, o3: 55 } },
-    "Chandigarh": { aqi: 78, pollutants: { pm25: 32, pm10: 62, no2: 28, so2: 10, co: 0.8, o3: 35 } },
-    "Gurgaon": { aqi: 245, pollutants: { pm25: 122, pm10: 198, no2: 65, so2: 26, co: 1.7, o3: 48 } },
-    "Noida": { aqi: 258, pollutants: { pm25: 128, pm10: 212, no2: 68, so2: 28, co: 1.8, o3: 52 } },
-  };
-
-  const baseData = cityMockData[cityName] || { aqi: 120, pollutants: { pm25: 55, pm10: 95, no2: 45, so2: 18, co: 1.2, o3: 42 } };
-  const category = getAQICategory(baseData.aqi!);
+  const baseData = generatedCityMockData[cityName] || defaultMockData;
+  const category = getAQICategory(baseData.aqi);
 
   return {
     city: cityName,
-    aqi: baseData.aqi!,
+    aqi: baseData.aqi,
     aqiCategory: category.label,
-    pollutants: baseData.pollutants!,
+    pollutants: baseData.pollutants,
     lastUpdated: new Date().toISOString(),
   };
 };
