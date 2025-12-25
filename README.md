@@ -153,5 +153,3 @@ This project is open source and available under the [MIT License](LICENSE).
 - Icons from [Lucide](https://lucide.dev/)
 
 ---
-
-Built with ❤️ using [Lovable](https://lovable.dev)
