@@ -159,7 +159,7 @@ export const getMockAQIData = (cityName: string): AQIData => {
   };
 };
 
-// Fetch live AQI data from OpenWeatherMap API via edge function
+// Fetch live AQI data from CPCB API via edge function
 export const fetchLiveAQIData = async (cityName: string): Promise<AQIData> => {
   const city = INDIAN_CITIES.find(c => c.name === cityName);
   if (!city) {
@@ -174,8 +174,6 @@ export const fetchLiveAQIData = async (cityName: string): Promise<AQIData> => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        lat: city.lat,
-        lon: city.lon,
         city: cityName,
       }),
     }
