@@ -19,9 +19,10 @@ const Navigation = () => {
             
             <div className="flex items-center gap-1">
               <NavLink
-                to="/dashboard"
+                to="/"
                 className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
                 activeClassName="text-primary bg-primary/10 hover:bg-primary/15"
+                end
               >
                 <span className="flex items-center gap-2">
                   <Wind className="w-4 h-4" />
@@ -30,10 +31,9 @@ const Navigation = () => {
               </NavLink>
               
               <NavLink
-                to="/"
+                to="/planner"
                 className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
                 activeClassName="text-primary bg-primary/10 hover:bg-primary/15"
-                end
               >
                 <span className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4" />
