@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      aqi_values_daily: {
+        Row: {
+          aqi: number
+          category: string
+          city: string
+          co_8hr_max: number | null
+          computed_at: string
+          created_at: string
+          date: string
+          dominant_pollutant: string
+          id: string
+          no2_avg: number | null
+          o3_8hr_max: number | null
+          pm10_avg: number | null
+          pm25_avg: number | null
+          so2_avg: number | null
+        }
+        Insert: {
+          aqi: number
+          category: string
+          city: string
+          co_8hr_max?: number | null
+          computed_at?: string
+          created_at?: string
+          date: string
+          dominant_pollutant: string
+          id?: string
+          no2_avg?: number | null
+          o3_8hr_max?: number | null
+          pm10_avg?: number | null
+          pm25_avg?: number | null
+          so2_avg?: number | null
+        }
+        Update: {
+          aqi?: number
+          category?: string
+          city?: string
+          co_8hr_max?: number | null
+          computed_at?: string
+          created_at?: string
+          date?: string
+          dominant_pollutant?: string
+          id?: string
+          no2_avg?: number | null
+          o3_8hr_max?: number | null
+          pm10_avg?: number | null
+          pm25_avg?: number | null
+          so2_avg?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
