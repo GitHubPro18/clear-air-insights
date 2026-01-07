@@ -78,14 +78,15 @@ function calculatePriorityScore(
 ): number {
   const cost = Math.min(...product.affiliateOptions.map((o) => o.price));
   const sensitivityBoost = product.priorityBoostForSensitive ? sensitivityMultiplier : 1;
+  // Use logarithmic cost scaling to reduce price penalty
+  // This prevents cheap items from dominating while still favoring value
+  const costFactor = Math.log10(cost + 1) / 4; // Normalize to ~0.5-1.0 range
+  let score = (product.effectivenessScore * exposureWeight * sensitivityBoost) / (costFactor / 1000);
   if (product.category === "supplementary") {
     // De-prioritize plants (they're nice-to-have)
     score *= 0.5;
   }
-  // Use logarithmic cost scaling to reduce price penalty
-  // This prevents cheap items from dominating while still favoring value
-  const costFactor = Math.log10(cost + 1) / 4; // Normalize to ~0.5-1.0 range
-  return (product.effectivenessScore * exposureWeight * sensitivityBoost) / (costFactor / 1000);
+  return score;
 }
 
 // ============ REASON CODE GENERATOR ============
