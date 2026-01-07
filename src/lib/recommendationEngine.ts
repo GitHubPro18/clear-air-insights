@@ -198,7 +198,7 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
   const selectedProducts: RecommendedProduct[] = [];
   const selectedIds = new Set<string>();
 
-  if (aqi >= 300) {
+  if (aqi >= 250) {
     const mandatoryMask = PRODUCT_CATALOG.find((p) => p.id === "n95_mask" && p.minAQI <= aqi);
 
     if (mandatoryMask) {
