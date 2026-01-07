@@ -81,12 +81,7 @@ function calculatePriorityScore(
   // Use logarithmic cost scaling to reduce price penalty
   // This prevents cheap items from dominating while still favoring value
   const costFactor = Math.log10(cost + 1) / 4; // Normalize to ~0.5-1.0 range
-  let score = (product.effectivenessScore * exposureWeight * sensitivityBoost) / (costFactor / 1000);
-  if (product.category === "supplementary") {
-    // De-prioritize plants (they're nice-to-have)
-    score *= 0.5;
-  }
-  return score;
+  return (product.effectivenessScore * exposureWeight * sensitivityBoost) / (costFactor / 1000);
 }
 
 // ============ REASON CODE GENERATOR ============
@@ -208,6 +203,9 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
   const selectedProducts: RecommendedProduct[] = [];
   const selectedIds = new Set<string>();
 
+  // Track if a high-capacity indoor purifier is already selected
+  let hasHighCapacityIndoorPurifier = false;
+
   if (aqi >= 250) {
     const mandatoryMask = PRODUCT_CATALOG.find((p) => p.id === "n95_mask" && p.minAQI <= aqi);
 
@@ -276,6 +274,11 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
     ).length;
     if (product.category === "supplementary" && plantCount >= 2) continue;
 
+    // Prevent recommending weaker indoor purifiers once strong indoor coverage exists
+    if (hasHighCapacityIndoorPurifier && product.category === "indoor" && product.effectivenessScore < 0.7) {
+      continue;
+    }
+
     // Check budget : BOLT LOGIC
     if (minPrice > remainingBudget) {
       continue;
@@ -310,6 +313,11 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
       options: product.affiliateOptions,
       selectedCost: cheapestOption.price,
     });
+
+    // Mark indoor coverage as satisfied if high-capacity purifier is selected
+    if (product.category === "indoor" && product.effectivenessScore >= 0.7) {
+      hasHighCapacityIndoorPurifier = true;
+    }
 
     selectedIds.add(product.id);
     remainingBudget -= cheapestOption.price;
