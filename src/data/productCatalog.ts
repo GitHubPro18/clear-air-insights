@@ -139,7 +139,7 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     minAQI: 200,
     baseCost: 12000,
     effectivenessScore: 0.85,
-    isMandatoryAtAQI: 300,
+    //isMandatoryAtAQI: 300,
     applicableHomeTypes: ["2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: true,
     description: "High-capacity HEPA purifier for larger spaces (~500 sq ft)",
