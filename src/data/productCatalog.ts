@@ -51,13 +51,14 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 399,
         productName:
           "Yugan N99 Anti Pollution Reusable and Washable Face Masks with Replaceable N99 Filters, Unisex, With Valve",
-      },
+      } /*,
       {
         retailer: "Flipkart",
         url: "https://flipkart.com/p/n95-reusable",
         price: 349,
         productName: "Venus V-4400 N95 Mask",
       },
+      */,
     ],
   },
   {
@@ -78,13 +79,14 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 367,
         productName:
           "(Pack of 20 (Grey) Premium N95 Mask For Men and Women with Mask Adjuster - Washable - Reusable - Pollution - Protection - Advance Filtration",
-      },
+      } /*,
       {
         retailer: "Flipkart",
         url: "https://flipkart.com/p/n95-disposable",
         price: 499,
         productName: "Venus N95 Disposable (Pack of 10)",
       },
+      */,
     ],
   },
   {
@@ -105,8 +107,9 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 322,
         productName:
           "Kids Non woven Ear Loop Style Protective 5 layered filtration with genuine Melt Blown and Hot Air Cotton Layers N95 Face Mask (Multicolour Small) -Pack of 5/10+2",
-      },
+      } /*,
       { retailer: "FirstCry", url: "https://firstcry.com/p/kids-n95", price: 249, productName: "Cambridge Mask Kids" },
+      */,
     ],
   },
 
@@ -127,8 +130,9 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         url: "https://amzn.to/3Y9gglN",
         price: 6450,
         productName: "Honeywell Air Purifier for Home & Office, 3-in-1, Pre, H13 HEPA, Activated Carbon", //, Removes 99.99% Pollutants, Allergens, Pet Danger, Smoke, Dust & Pollens - Air touch V1",
-      },
+      } /*,
       { retailer: "Flipkart", url: "https://flipkart.com/p/hepa-room", price: 4999, productName: "Philips AC0820" },
+      */,
     ],
   },
   {
@@ -148,8 +152,9 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         url: "https://amzn.to/4pbCLSh",
         price: 11998,
         productName: "Forus Air Purifier for Home & Office, H13 HEPA 3-in-1 filter", //, Removes 99.99% Pollutants, Allergens, Pet Dander, Smoke, Dust, virus & Pollens, Covers Up to 500 Sqft Area | PM 2.5 | 2-Year Warranty (WR)",
-      },
+      } /*,
       { retailer: "Croma", url: "https://croma.com/p/hepa-home", price: 11999, productName: "Philips AC2887" },
+      */,
     ],
   },
   {
@@ -169,13 +174,14 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 2299,
         productName:
           "Mini Air Purifier For Bedroom, Small Room Air Purifiers For Home, Portable Air Purifier For Pets Allergies, Desk Air Purifier For Office, Baby Air Purifier For Nursery, Blue Pure Mini Max",
-      },
+      } /*,
       {
         retailer: "Flipkart",
         url: "https://flipkart.com/p/portable-purifier",
         price: 2999,
         productName: "Honeywell Move Pure",
       },
+      */,
     ],
   },
   {
@@ -195,13 +201,14 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 1299,
         productName:
           "Coconut Shell Activated Carbon Air Purifier Bags To Deodorize And Dehumidify Car And Bathroom (200G, Pack Of 3, Classic Neel) - Granule",
-      },
+      } /*,
       {
         retailer: "Flipkart",
         url: "https://flipkart.com/p/carbon-bags",
         price: 399,
         productName: "Amazon Basics Charcoal Bags",
       },
+      */,
     ],
   },
   {
@@ -221,13 +228,14 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 274,
         productName:
           "10M Window Sealing Strips, Weather Stripping for Door Weatherproof, Soundproof, Windproof, Dustproof Door Frame Seal Brush Strip, Window Door Seal Strip (10 Mtr - 9 MM)",
-      },
+      } /*,
       {
         retailer: "Flipkart",
         url: "https://flipkart.com/p/sealing-strips",
         price: 599,
         productName: "Duck Brand Seal Strip",
       },
+      */,
     ],
   },
 
@@ -249,7 +257,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 229,
         productName: "Sansevieria Golden Hahnii Snake Live Plant With Grow Pot",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/sansevieria", price: 299, productName: "Sansevieria Trifasciata" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/snake-plant-golden-hahnii",
+        price: 249,
+        productName: "Sansevieria Trifasciata",
+      },
     ],
   },
   {
@@ -294,7 +307,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 298,
         productName: "Good Luck Money Plant Variegated With Self Watering Pot",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/pothos", price: 199, productName: "Devil's Ivy Pothos" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/money-plant-golden-with-self-watering-pot",
+        price: 249,
+        productName: "Devil's Ivy Pothos",
+      },
     ],
   },
   {
@@ -314,7 +332,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 299,
         productName: "Spider Plant Indoor Live with Self Watering Pot (4 Inch - Small)",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/spider-plant", price: 249, productName: "Chlorophytum Comosum" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/chlorophytum-spider-plant",
+        price: 249,
+        productName: "Chlorophytum Comosum",
+      },
     ],
   },
   {
@@ -334,7 +357,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 187,
         productName: "Peace Lily Plant in White Ibiza Pot", // | Indoor Flowering Air-Purifying Plant for Home, Bedroom & Living Room Decor",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/peace-lily", price: 399, productName: "Spathiphyllum Peace Lily" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/peace-lily-plant-with-self-watering-pot",
+        price: 299,
+        productName: "Spathiphyllum Peace Lily",
+      },
     ],
   },
   {
@@ -354,7 +382,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 249,
         productName: "Aloe Vera Mini Plant Succulent Live Plant With Grow Pot",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/aloe-vera", price: 199, productName: "Medicinal Aloe Vera" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/aloe-vera-mini-plant",
+        price: 249,
+        productName: "Medicinal Aloe Vera",
+      },
     ],
   },
   {
@@ -374,7 +407,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 599,
         productName: "Rubber Natural Live Indoor Plant", // - Medium",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/ficus", price: 499, productName: "Ficus Elastica Medium" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/rubber-plant",
+        price: 549,
+        productName: "Ficus Elastica Medium",
+      },
     ],
   },
 ];
