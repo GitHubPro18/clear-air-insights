@@ -269,7 +269,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
         price: 399,
         productName: "Areca Palm Air Purifier Natural Live Plant",
       },
-      { retailer: "Ugaoo", url: "https://ugaoo.com/p/areca-palm", price: 449, productName: "Golden Cane Palm" },
+      {
+        retailer: "Ugaoo",
+        url: "https://www.ugaoo.com/products/areca-palm-plant-big",
+        price: 449,
+        productName: "Golden Cane Palm",
+      },
     ],
   },
   {
