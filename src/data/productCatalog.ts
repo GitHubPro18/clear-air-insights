@@ -45,8 +45,19 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     description: "Washable N95-equivalent mask with replaceable filters",
     isMandatoryAtAQI: 300,
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/44GtBWw", price: 399, productName: "Yugan N99 Anti Pollution Reusable and Washable Face Masks with Replaceable N99 Filters, Unisex, With Valve" },
-      { retailer: "Flipkart", url: "https://flipkart.com/p/n95-reusable", price: 349, productName: "Venus V-4400 N95 Mask" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/44GtBWw",
+        price: 399,
+        productName:
+          "Yugan N99 Anti Pollution Reusable and Washable Face Masks with Replaceable N99 Filters, Unisex, With Valve",
+      },
+      {
+        retailer: "Flipkart",
+        url: "https://flipkart.com/p/n95-reusable",
+        price: 349,
+        productName: "Venus V-4400 N95 Mask",
+      },
     ],
   },
   {
@@ -55,14 +66,25 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     category: "personal",
     minAQI: 150,
     baseCost: 500,
-    effectivenessScore: 0.80,
+    effectivenessScore: 0.8,
     applicableHomeTypes: ["room", "1BHK", "2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: true,
     description: "Single-use N95 masks for high pollution days",
     isMandatoryAtAQI: 300,
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4b0UFn5", price: 367, productName: "(Pack of 20 (Grey) Premium N95 Mask For Men and Women with Mask Adjuster - Washable - Reusable - Pollution - Protection - Advance Filtration" },
-      { retailer: "Flipkart", url: "https://flipkart.com/p/n95-disposable", price: 499, productName: "Venus N95 Disposable (Pack of 10)" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4b0UFn5",
+        price: 367,
+        productName:
+          "(Pack of 20 (Grey) Premium N95 Mask For Men and Women with Mask Adjuster - Washable - Reusable - Pollution - Protection - Advance Filtration",
+      },
+      {
+        retailer: "Flipkart",
+        url: "https://flipkart.com/p/n95-disposable",
+        price: 499,
+        productName: "Venus N95 Disposable (Pack of 10)",
+      },
     ],
   },
   {
@@ -77,7 +99,13 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     description: "Properly fitted masks for children under 10",
     isChildVariant: true,
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4j84iCx", price: 322, productName: "Kids Non woven Ear Loop Style Protective 5 layered filtration with genuine Melt Blown and Hot Air Cotton Layers N95 Face Mask (Multicolour Small) -Pack of 5/10+2" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4j84iCx",
+        price: 322,
+        productName:
+          "Kids Non woven Ear Loop Style Protective 5 layered filtration with genuine Melt Blown and Hot Air Cotton Layers N95 Face Mask (Multicolour Small) -Pack of 5/10+2",
+      },
       { retailer: "FirstCry", url: "https://firstcry.com/p/kids-n95", price: 249, productName: "Cambridge Mask Kids" },
     ],
   },
@@ -89,12 +117,18 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     category: "indoor",
     minAQI: 150,
     baseCost: 5000,
-    effectivenessScore: 0.70,
+    effectivenessScore: 0.7,
     applicableHomeTypes: ["room", "1BHK"],
     priorityBoostForSensitive: true,
     description: "Compact HEPA purifier for single room coverage (~200 sq ft)",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/3Y9gglN", price: 6450, productName: "Honeywell Air Purifier for Home & Office, 3-in-1, Pre, H13 HEPA, Activated Carbon, Removes 99.99% Pollutants, Allergens, Pet Danger, Smoke, Dust & Pollens - Air touch V1" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/3Y9gglN",
+        price: 6450,
+        productName:
+          "Honeywell Air Purifier for Home & Office, 3-in-1, Pre, H13 HEPA, Activated Carbon, Removes 99.99% Pollutants, Allergens, Pet Danger, Smoke, Dust & Pollens - Air touch V1",
+      },
       { retailer: "Flipkart", url: "https://flipkart.com/p/hepa-room", price: 4999, productName: "Philips AC0820" },
     ],
   },
@@ -105,11 +139,18 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     minAQI: 200,
     baseCost: 12000,
     effectivenessScore: 0.85,
+    isMandatoryAtAQI: 300,
     applicableHomeTypes: ["2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: true,
     description: "High-capacity HEPA purifier for larger spaces (~500 sq ft)",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4pbCLSh", price: 11998, productName: "Forus Air Purifier for Home & Office, H13 HEPA 3-in-1 filter, Removes 99.99% Pollutants, Allergens, Pet Dander, Smoke, Dust, virus & Pollens, Covers Up to 500 Sqft Area | PM 2.5 | 2-Year Warranty (WR)" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4pbCLSh",
+        price: 11998,
+        productName:
+          "Forus Air Purifier for Home & Office, H13 HEPA 3-in-1 filter, Removes 99.99% Pollutants, Allergens, Pet Dander, Smoke, Dust, virus & Pollens, Covers Up to 500 Sqft Area | PM 2.5 | 2-Year Warranty (WR)",
+      },
       { retailer: "Croma", url: "https://croma.com/p/hepa-home", price: 11999, productName: "Philips AC2887" },
     ],
   },
@@ -119,13 +160,24 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     category: "indoor",
     minAQI: 100,
     baseCost: 3000,
-    effectivenessScore: 0.50,
+    effectivenessScore: 0.5,
     applicableHomeTypes: ["room", "1BHK", "2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: false,
     description: "Lightweight, portable purifier for desk or bedside",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4pQ4Gbl", price: 2299, productName: "Mini Air Purifier For Bedroom, Small Room Air Purifiers For Home, Portable Air Purifier For Pets Allergies, Desk Air Purifier For Office, Baby Air Purifier For Nursery, Blue Pure Mini Max" },
-      { retailer: "Flipkart", url: "https://flipkart.com/p/portable-purifier", price: 2999, productName: "Honeywell Move Pure" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4pQ4Gbl",
+        price: 2299,
+        productName:
+          "Mini Air Purifier For Bedroom, Small Room Air Purifiers For Home, Portable Air Purifier For Pets Allergies, Desk Air Purifier For Office, Baby Air Purifier For Nursery, Blue Pure Mini Max",
+      },
+      {
+        retailer: "Flipkart",
+        url: "https://flipkart.com/p/portable-purifier",
+        price: 2999,
+        productName: "Honeywell Move Pure",
+      },
     ],
   },
   {
@@ -134,13 +186,24 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     category: "indoor",
     minAQI: 50,
     baseCost: 400,
-    effectivenessScore: 0.20,
+    effectivenessScore: 0.2,
     applicableHomeTypes: ["room", "1BHK", "2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: false,
     description: "Supplementary odor and VOC absorption",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/3Y8wbAU", price: 1299, productName: "Dr. CHARCOAL Coconut Shell Activated Carbon Air Purifier Bags To Deodorize And Dehumidify Car And Bathroom (200G, Pack Of 3, Classic Neel) - Granule" },
-      { retailer: "Flipkart", url: "https://flipkart.com/p/carbon-bags", price: 399, productName: "Amazon Basics Charcoal Bags" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/3Y8wbAU",
+        price: 1299,
+        productName:
+          "Dr. CHARCOAL Coconut Shell Activated Carbon Air Purifier Bags To Deodorize And Dehumidify Car And Bathroom (200G, Pack Of 3, Classic Neel) - Granule",
+      },
+      {
+        retailer: "Flipkart",
+        url: "https://flipkart.com/p/carbon-bags",
+        price: 399,
+        productName: "Amazon Basics Charcoal Bags",
+      },
     ],
   },
   {
@@ -154,8 +217,19 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Self-adhesive foam strips to reduce air leakage",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/48WMrK4", price: 274, productName: "10 Meter Window Sealing Strips, Weather Stripping for Door Weatherproof, Soundproof, Windproof, D7ustproof Door Frame Seal Brush Strip, Window Door Seal Strip (10 Mtr - 9 MM)" },
-      { retailer: "Flipkart", url: "https://flipkart.com/p/sealing-strips", price: 599, productName: "Duck Brand Seal Strip" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/48WMrK4",
+        price: 274,
+        productName:
+          "10 Meter Window Sealing Strips, Weather Stripping for Door Weatherproof, Soundproof, Windproof, D7ustproof Door Frame Seal Brush Strip, Window Door Seal Strip (10 Mtr - 9 MM)",
+      },
+      {
+        retailer: "Flipkart",
+        url: "https://flipkart.com/p/sealing-strips",
+        price: 599,
+        productName: "Duck Brand Seal Strip",
+      },
     ],
   },
 
@@ -171,7 +245,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Low-maintenance plant, releases oxygen at night",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/45oLx8e", price: 229, productName: "Ugaoo Sansevieria Golden Hahnii Snake Live Plant With Grow Pot" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/45oLx8e",
+        price: 229,
+        productName: "Ugaoo Sansevieria Golden Hahnii Snake Live Plant With Grow Pot",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/sansevieria", price: 299, productName: "Sansevieria Trifasciata" },
     ],
   },
@@ -181,12 +260,17 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     category: "supplementary",
     minAQI: 50,
     baseCost: 450,
-    effectivenessScore: 0.10,
+    effectivenessScore: 0.1,
     applicableHomeTypes: ["1BHK", "2BHK", "3BHK", "bungalow & villa", "others"],
     priorityBoostForSensitive: false,
     description: "Natural humidifier, removes formaldehyde",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4b4kDGr", price: 399, productName: "Ugaoo Areca Palm Air Purifier Natural Live Plant" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4b4kDGr",
+        price: 399,
+        productName: "Ugaoo Areca Palm Air Purifier Natural Live Plant",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/areca-palm", price: 449, productName: "Golden Cane Palm" },
     ],
   },
@@ -201,7 +285,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Hardy trailing plant, improves indoor air quality",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/49pQrUQ", price: 298, productName: "Ugaoo Good Luck Money Plant Variegated With Self Watering Pot" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/49pQrUQ",
+        price: 298,
+        productName: "Ugaoo Good Luck Money Plant Variegated With Self Watering Pot",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/pothos", price: 199, productName: "Devil's Ivy Pothos" },
     ],
   },
@@ -216,7 +305,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Excellent for removing carbon monoxide and formaldehyde",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4jaOT4l", price: 299, productName: "UGAOO Spider Plant Indoor Live with Self Watering Pot (4 Inch - Small)" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4jaOT4l",
+        price: 299,
+        productName: "UGAOO Spider Plant Indoor Live with Self Watering Pot (4 Inch - Small)",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/spider-plant", price: 249, productName: "Chlorophytum Comosum" },
     ],
   },
@@ -231,7 +325,13 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "NASA-recommended air purifying plant",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4p90QJo", price: 187, productName: "UGAOO Peace Lily Plant in White Ibiza Pot | Indoor Flowering Air-Purifying Plant for Home, Bedroom & Living Room Decor" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4p90QJo",
+        price: 187,
+        productName:
+          "UGAOO Peace Lily Plant in White Ibiza Pot | Indoor Flowering Air-Purifying Plant for Home, Bedroom & Living Room Decor",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/peace-lily", price: 399, productName: "Spathiphyllum Peace Lily" },
     ],
   },
@@ -246,7 +346,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Multi-purpose plant with air-cleaning properties",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/4sbnWSo", price: 249, productName: "UGAOO Aloe Vera Mini Plant Succulent Live Plant With Grow Pot" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/4sbnWSo",
+        price: 249,
+        productName: "UGAOO Aloe Vera Mini Plant Succulent Live Plant With Grow Pot",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/aloe-vera", price: 199, productName: "Medicinal Aloe Vera" },
     ],
   },
@@ -261,7 +366,12 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
     priorityBoostForSensitive: false,
     description: "Large-leafed plant effective at removing toxins",
     affiliateOptions: [
-      { retailer: "Amazon", url: "https://amzn.to/3MQAC0L", price: 599, productName: "UGAOO Rubber Natural Live Indoor Plant - Medium" },
+      {
+        retailer: "Amazon",
+        url: "https://amzn.to/3MQAC0L",
+        price: 599,
+        productName: "UGAOO Rubber Natural Live Indoor Plant - Medium",
+      },
       { retailer: "Ugaoo", url: "https://ugaoo.com/p/ficus", price: 499, productName: "Ficus Elastica Medium" },
     ],
   },

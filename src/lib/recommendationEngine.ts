@@ -61,10 +61,12 @@ function calculateExposureWeight(
   const hoursInWeek = 168;
   const indoorWeight = timeIndoorsPerWeek / hoursInWeek;
   const commuteWeight = (dailyCommuteHoursOnAverage * 7) / hoursInWeek; // weekly commute
+  // Boost indoor weight since people spend most time at home
+  const adjustedIndoorWeight = Math.min(indoorWeight * 1.5, 1.0);
   return {
-    indoorWeight,
+    indoorWeight: adjustedIndoorWeight,
     commuteWeight,
-    total: indoorWeight + commuteWeight,
+    total: adjustedIndoorWeight + commuteWeight,
   };
 }
 
@@ -76,7 +78,10 @@ function calculatePriorityScore(
 ): number {
   const cost = Math.min(...product.affiliateOptions.map((o) => o.price));
   const sensitivityBoost = product.priorityBoostForSensitive ? sensitivityMultiplier : 1;
-  return (product.effectivenessScore * exposureWeight * sensitivityBoost) / (cost / 1000);
+  // Use logarithmic cost scaling to reduce price penalty
+  // This prevents cheap items from dominating while still favoring value
+  const costFactor = Math.log10(cost + 1) / 4; // Normalize to ~0.5-1.0 range
+  return (product.effectivenessScore * exposureWeight * sensitivityBoost) / (costFactor / 1000);
 }
 
 // ============ REASON CODE GENERATOR ============
