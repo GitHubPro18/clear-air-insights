@@ -166,6 +166,7 @@ function getPriorityLabel(score: number, isMandatory: boolean): Priority {
   // BOLT LOGIC
   if (score >= 0.2) return "Medium";
   return "Low";
+  if (product.category === "supplementary") return "Low";
 }
 
 // ============ MAIN RECOMMENDATION ENGINE (PRD Section 7.4) ============
