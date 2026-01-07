@@ -272,7 +272,7 @@ export const PRODUCT_CATALOG: ProductWithAffiliates[] = [
       {
         retailer: "Ugaoo",
         url: "https://www.ugaoo.com/products/areca-palm-plant-big",
-        price: 449,
+        price: 399,
         productName: "Golden Cane Palm",
       },
     ],
