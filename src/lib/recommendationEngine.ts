@@ -159,14 +159,9 @@ function generateSummary(input: RecommendationInput, mandatoryProducts: ProductW
 // ============ PRIORITY LABEL ============
 function getPriorityLabel(score: number, isMandatory: boolean): Priority {
   if (isMandatory) return "High";
-  //if (score >= 0.15) return "High";
-  // BOLT LOGIC
   if (score >= 0.5) return "High";
-  //if (score >= 0.08) return "Medium";
-  // BOLT LOGIC
   if (score >= 0.2) return "Medium";
   return "Low";
-  if (product.category === "supplementary") return "Low";
 }
 
 // ============ MAIN RECOMMENDATION ENGINE (PRD Section 7.4) ============
