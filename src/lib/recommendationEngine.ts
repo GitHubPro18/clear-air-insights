@@ -157,7 +157,11 @@ function generateSummary(input: RecommendationInput, mandatoryProducts: ProductW
 }
 
 // ============ PRIORITY LABEL ============
-function getPriorityLabel(score: number, isMandatory: boolean): Priority {
+function getPriorityLabel(score: number, isMandatory: boolean, isPlant: boolean = false): Priority {
+  // Plants always capped at Medium priority per business rule
+  if (isPlant) {
+    return score >= 0.2 ? "Medium" : "Low";
+  }
   if (isMandatory) return "High";
   if (score >= 0.5) return "High";
   if (score >= 0.2) return "Medium";
@@ -303,7 +307,7 @@ export function generateRecommendations(input: RecommendationInput): Recommendat
       productType: product.name,
       productName: cheapestOption.productName,
       //priority: getPriorityLabel(score, isMandatory),
-      priority: getPriorityLabel(score, false),
+      priority: getPriorityLabel(score, false, product.category === "supplementary"),
       reason,
       reasonCodes,
       options: product.affiliateOptions,
