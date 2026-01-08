@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TrendingUp } from "lucide-react";
 import { getMockAQIHistory, AQIHistoryPoint, getAQICategory } from "@/data/aqiData";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AQITrendChartProps {
   city: string;
@@ -13,15 +14,57 @@ interface AQITrendChartProps {
 const AQITrendChart = ({ city, history24h }: AQITrendChartProps) => {
   const [period, setPeriod] = useState<'24h' | '7d'>('24h');
   const [data, setData] = useState<AQIHistoryPoint[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (period === '24h' && history24h && history24h.length > 0) {
-      // Use live data if available
-      setData(history24h);
-    } else {
-      // Fall back to mock data
-      setData(getMockAQIHistory(city, period));
-    }
+    const fetchData = async () => {
+      if (period === '24h') {
+        // Use live hourly data if available, else mock
+        if (history24h && history24h.length > 0) {
+          setData(history24h);
+        } else {
+          setData(getMockAQIHistory(city, period));
+        }
+      } else {
+        // Fetch 7-day data from aqi_values_daily table
+        setIsLoading(true);
+        try {
+          const { data: dbData, error } = await supabase
+            .from('aqi_values_daily')
+            .select('date, aqi')
+            .eq('city', city)
+            .order('date', { ascending: false })
+            .limit(7);
+
+          if (error) throw error;
+
+          if (dbData && dbData.length > 0) {
+            // Convert to AQIHistoryPoint format, sorted ascending by date
+            const historyPoints: AQIHistoryPoint[] = dbData
+              .reverse()
+              .map((row) => {
+                const date = new Date(row.date);
+                return {
+                  time: row.date,
+                  aqi: row.aqi,
+                  label: date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric' }),
+                };
+              });
+            setData(historyPoints);
+          } else {
+            // Fallback to mock if no DB data
+            setData(getMockAQIHistory(city, period));
+          }
+        } catch (error) {
+          console.error('Failed to fetch 7-day AQI history:', error);
+          setData(getMockAQIHistory(city, period));
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchData();
   }, [city, period, history24h]);
 
   const CustomTooltip = ({ active, payload }: any) => {
